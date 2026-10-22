@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Invitation pour la fête du henné de Sarah Sfar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============ COULEURS (à changer ici) ============ */
+  :root{
+    --wine:#6a1426;        /* bordeaux de la calligraphie */
+    --wine-2:#8a2337;
+    --gold:#b8903f;        /* doré */
+    --gold-light:#e6cf98;
+    --paper:#fffaf6;       /* fond de la page */
+    --ink:#3a3236;         /* texte */
+    --muted:#7a6d70;
+    --spark:#d9b25a;       /* or des étincelles */
+    --door:#e9b520;        /* jaune de la porte */
+    --stone:#ece6da;       /* encadrement en pierre */
+    --nail:#1c1a1a;        /* clous noirs */
+    --display-ar:'Amiri', 'Traditional Arabic', serif;   /* calligraphie de la Basmala et Salat */
+    --display-fr:'Playfair Display', Georgia, serif;    /* Titres et Noms en français */
+    --text:'Montserrat', sans-serif;                    /* Texte courant en français */
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--text);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.8;
+    overflow-x:hidden;
+  }
+  body.locked{overflow:hidden}
+
+  /* ============ PORTE (intro) ============ */
+  #intro{
+    position:fixed;inset:0;z-index:50;
+    display:grid;grid-template-rows:1fr auto minmax(44px,9vh);justify-items:center;
+    padding-top:env(safe-area-inset-top,0px);
+    background-color:#d4bc8f;
+    background-image:
+      radial-gradient(ellipse at 50% 55%, rgba(255,240,205,.35), rgba(70,45,20,.35) 85%),
+      repeating-linear-gradient(0deg, transparent 0 34px, rgba(110,80,45,.28) 34px 36px),
+      repeating-linear-gradient(90deg, transparent 0 7px, rgba(255,255,255,.04) 7px 9px);
+    overflow:hidden;
+    transition:opacity 1s ease 1.6s, visibility 0s linear 2.6s;
+  }
+  #intro.open{opacity:0;visibility:hidden}
+
+  .hint{
+    align-self:center;padding:10px 16px;
+    font-family:var(--display-fr);font-size:1.6rem;letter-spacing:1px;line-height:1.8;color:#fff8e6;
+    text-shadow:0 2px 8px rgba(60,35,10,.55);
+    text-transform:uppercase;
+    animation:pulse 2.2s ease-in-out infinite;
+    transition:opacity .4s ease;
+  }
+  #intro.open .hint{opacity:0;animation:none}
+  @keyframes pulse{50%{opacity:.5}}
+
+  .portal{
+    position:relative;display:block;
+    width:min(460px,92vw,calc((100vh - 150px) / 1.55));
+    width:min(460px,92vw,calc((100dvh - 150px) / 1.55));
+    padding:40px 24px 0;
+    border:none;cursor:pointer;font:inherit;
+    background:linear-gradient(#f4f0e8,var(--stone) 60%,#ddd5c5);
+    box-shadow:
+      inset 0 0 0 2px #d6cdbb,
+      inset 0 0 0 9px #f2ede4,
+      inset 0 0 0 10px #cfc5b1,
+      0 22px 34px -14px rgba(40,25,10,.6);
+    transform-origin:50% 62%;
+    transition:transform 1.4s cubic-bezier(.55,0,.35,1) .9s;
+  }
+  #intro.open .portal{transform:scale(2.6)}
+  .portal:focus-visible{outline:3px solid #fff8e6;outline-offset:6px}
+
+  .rosette{position:absolute;top:34px;width:34px;height:34px;color:#bdb29c}
+  .rosette.r{right:24px}.rosette.l{left:24px}
+
+  .ring{
+    display:block;padding:9px 9px 0;
+    background:linear-gradient(#e0d8c9,#c6bba5);
+    -webkit-clip-path:url(#hs);clip-path:url(#hs);
+  }
+  .arch{
+    position:relative;display:block;aspect-ratio:13/20;
+    -webkit-clip-path:url(#hs);clip-path:url(#hs);
+    perspective:1100px;
+    background:radial-gradient(ellipse at 50% 60%, #fffaf0 0%, #f6dfb0 38%, #9a6634 100%);
+  }
+  .leaf{
+    position:absolute;top:0;bottom:0;width:50%;display:block;
+    background:
+      repeating-linear-gradient(90deg, rgba(120,80,0,.06) 0 2px, transparent 2px 11px),
+      linear-gradient(90deg, #d39f12, var(--door) 35%, #f3c63a 70%, #dca817);
+    transition:transform 1.5s cubic-bezier(.6,.05,.3,1);
+  }
+  .leaf.left{left:0;transform-origin:left center;box-shadow:inset -2px 0 3px rgba(0,0,0,.35)}
+  .leaf.right{right:0;transform-origin:right center;box-shadow:inset 2px 0 3px rgba(0,0,0,.35)}
+  .leaf.right .art{transform:scaleX(-1)}
+  .leaf .art{width:100%;height:100%;display:block}
+  #intro.open .leaf.left{transform:rotateY(-82deg)}
+  #intro.open .leaf.right{transform:rotateY(82deg)}
+
+  .art .dots{fill:none;stroke:var(--nail);stroke-width:3.2;stroke-linecap:round;stroke-dasharray:0 7}
+  .art .ln{fill:none;stroke:var(--nail);stroke-width:1.3}
+  .art .thick{fill:none;stroke:var(--nail);stroke-width:3.6;stroke-linecap:round}
+  .art .fill{fill:var(--nail)}
+
+  .floor{
+    width:100%;align-self:stretch;
+    border-top:3px solid #a39a8c;
+    background-color:#b9b2a6;
+    background-image:
+      radial-gradient(ellipse at center, #e6e1d8 52%, transparent 56%),
+      radial-gradient(ellipse at center, #dcd6cb 52%, transparent 56%);
+    background-size:46px 24px;
+    background-position:0 0, 23px 12px;
+    box-shadow:inset 0 10px 18px -8px rgba(0,0,0,.35);
+  }
+
+  /* ============ BOUTON MUSIQUE ============ */
+  #musicBtn{
+    position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;
+    width:48px;height:48px;border-radius:50%;
+    border:1px solid var(--gold);background:var(--wine);color:var(--gold-light);
+    font-size:20px;cursor:pointer;display:none;align-items:center;justify-content:center;
+    box-shadow:0 6px 16px rgba(80,20,30,.3);
+  }
+  #musicBtn.show{display:flex}
+  #musicBtn.playing{animation:spin 6s linear infinite}
+  #musicBtn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* ============ ÉTINCELLES DORÉES ============ */
+  #sparkles{position:fixed;inset:0;pointer-events:none;z-index:30;overflow:hidden}
+  .spark{
+    position:absolute;width:var(--s);height:var(--s);
+    filter:drop-shadow(0 0 2px rgba(201,150,50,.8)) drop-shadow(0 0 7px rgba(230,190,90,.55));
+    animation:drift var(--d) ease-in-out var(--delay) infinite;
+  }
+  .spark::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle, #fff1bf 0 12%, #e6bd55 35%, #b88a2c 75%);
+    clip-path:polygon(50% 0,57% 43%,100% 50%,57% 57%,50% 100%,43% 57%,0 50%,43% 43%);
+    animation:twinkle var(--t) ease-in-out var(--delay) infinite;
+  }
+  .spark.dot::before{clip-path:circle(22% at 50% 50%)}
+  @keyframes drift{
+    0%  {transform:translate(0,0)}
+    50% {transform:translate(var(--x),-40px)}
+    100%{transform:translate(0,-80px)}
+  }
+  @keyframes twinkle{
+    0%,100%{opacity:0;transform:scale(.2) rotate(0deg)}
+    45%,55%{opacity:1;transform:scale(1) rotate(45deg)}
+  }
+
+  /* ============ INVITATION ============ */
+  main{
+    max-width:560px;margin:0 auto;
+    padding:calc(26px + env(safe-area-inset-top,0px)) 16px calc(90px + env(safe-area-inset-bottom,0px));
+  }
+  .frame{
+    border:1px solid var(--gold);
+    outline:1px solid var(--gold);outline-offset:-7px;
+    padding:46px 24px 42px;
+    text-align:center;
+    background:#fff;
+  }
+  section + section{margin-top:36px}
+
+  .bismillah{font-family:var(--display-ar);font-size:clamp(1.5rem,7vw,2.8rem);color:var(--wine);line-height:1.9;white-space:nowrap}
+  .salat{font-family:var(--display-ar);font-size:1.3rem;color:var(--muted);margin-top:10px}
+
+  .ornament{display:block;margin:26px auto;width:150px;height:auto;color:var(--gold)}
+
+  .honor{font-size:1.15rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+  .person{font-family:var(--display-fr);font-weight:600;font-size:clamp(1.5rem,6vw,2rem);color:var(--wine);line-height:1.5}
+  .and{font-family:var(--display-fr);font-style:italic;font-size:1.2rem;color:var(--gold);line-height:1.6}
+  .invite{font-size:1.15rem;color:var(--muted);margin-top:20px}
+  .bride{
+    font-family:var(--display-fr);font-weight:400;color:var(--gold);
+    font-size:clamp(3rem,13vw,4.5rem);line-height:1.3;margin-top:6px;
+    text-shadow:0 0 18px rgba(217,178,90,.35);
+    letter-spacing:1px;
+  }
+
+  /* Photo : se cache automatiquement si photo.png n'existe pas */
+  .photo{
+    width:min(240px,68%);margin-left:auto;margin-right:auto;
+    padding:6px;background:linear-gradient(var(--gold-light),var(--gold));
+    -webkit-clip-path:url(#hs);clip-path:url(#hs);
+  }
+  .photo .inner{aspect-ratio:13/20;-webkit-clip-path:url(#hs);clip-path:url(#hs);background:var(--paper)}
+  .photo img{width:100%;height:100%;object-fit:cover;display:block}
+
+  .event + .event{margin-top:36px}
+  .event-title{font-family:var(--display-fr);font-weight:600;font-size:1.5rem;color:var(--gold);line-height:1.4;text-transform:uppercase;letter-spacing:1px}
+  .event-date{font-family:var(--display-fr);font-weight:700;font-size:clamp(1.35rem,5.5vw,1.8rem);color:var(--wine);line-height:1.4;margin-top:6px;text-transform:capitalize}
+  .event-time{font-family:var(--text);font-size:1.05rem;font-weight:500;color:#56607a;line-height:1.5;margin-top:2px}
+  .venue-name{font-size:1.15rem;font-weight:700;color:var(--ink);margin-top:12px}
+  .venue-addr{color:var(--muted);font-size:1rem}
+  .event-sep{display:block;width:60px;height:1px;background:var(--gold);margin:36px auto 0;border:0}
+  .btn{
+    display:inline-block;margin:16px 6px 0;padding:10px 24px;
+    font-family:var(--text);font-size:0.95rem;font-weight:600;
+    color:#fff;background:var(--wine);border:1px solid var(--wine);
+    border-radius:40px;text-decoration:none;cursor:pointer;
+    transition:background .2s, transform .2s;
+    letter-spacing:0.5px;
+  }
+  .btn:hover{background:var(--wine-2);transform:translateY(-1px)}
+  .btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+  .closing{font-size:1.15rem;color:var(--muted);font-style:italic}
+  .sign{font-family:var(--display-fr);font-size:1.8rem;color:var(--gold);line-height:1.5;margin-top:6px;font-weight:600}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    #sparkles{display:none}
+  }
+</style>
+</head>
+<body class="locked">
+
+<!-- Forme de l'arc outrepassé (porte + photo) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <clipPath id="hs" clipPathUnits="objectBoundingBox">
+      <path d="M0.04,1 L0.04,0.47 A0.5,0.325 0 1 1 0.96,0.47 L0.96,1 Z"/>
+    </clipPath>
+    <radialGradient id="knob" cx="35%" cy="30%" r="70%">
+      <stop offset="0" stop-color="#6a6a6a"/>
+      <stop offset=".45" stop-color="#1c1a1a"/>
+      <stop offset="1" stop-color="#000"/>
+    </radialGradient>
+  </defs>
+</svg>
+
+<!-- Motif d'un battant (dupliqué en miroir pour l'autre) -->
+<template id="leafArt">
+  <svg class="art" viewBox="0 0 130 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <path class="dots" d="M20,400 L20,185 A120,120 0 0 1 130,17"/>
+    <path class="ln"   d="M30,400 L30,183 A110,110 0 0 1 130,27"/>
+    <path class="dots" d="M40,392 L40,181 A100,100 0 0 1 124,38"/>
+    <path class="dots" d="M124,22 L124,400"/>
+    <path class="dots" d="M40,196 L120,196"/>
+    <path class="dots" d="M40,262 L120,262"/>
+    <path class="dots" d="M40,330 L120,330"/>
+    <path class="dots" d="M40,392 L120,392"/>
+    <!-- flamme dans l'arc -->
+    <path class="dots" d="M86,186 C62,166 64,128 86,92 C108,128 110,166 86,186 Z"/>
+    <path class="ln" d="M86,172 C72,160 73,136 86,114 C99,136 100,160 86,172 Z"/>
+    <circle class="fill" cx="86" cy="146" r="3"/>
+    <path class="dots" d="M56,180 C50,160 56,140 66,126"/>
+    <!-- petits arcs -->
+    <path class="dots" d="M46,256 L46,232 A8,8 0 0 1 62,232 L62,256"/>
+    <path class="dots" d="M70,256 L70,232 A8,8 0 0 1 86,232 L86,256"/>
+    <circle cx="108" cy="222" r="9" fill="url(#knob)"/>
+    <!-- croissant -->
+    <path class="dots" d="M58,276 Q82,322 106,276"/>
+    <path class="thick" d="M70,282 Q82,302 94,282"/>
+    <path class="dots" d="M46,320 C56,304 66,324 76,312 S98,310 112,318"/>
+    <!-- losange -->
+    <path class="dots" d="M82,338 L110,362 L82,386 L54,362 Z"/>
+    <path class="ln" d="M82,350 L96,362 L82,374 L68,362 Z"/>
+    <circle class="fill" cx="82" cy="362" r="2.6"/>
+    <!-- gros clous du montant central -->
+    <g class="fill">
+      <circle cx="127" cy="60" r="4"/><circle cx="127" cy="110" r="4"/><circle cx="127" cy="160" r="4"/>
+      <circle cx="127" cy="210" r="4"/><circle cx="127" cy="260" r="4"/><circle cx="127" cy="310" r="4"/>
+      <circle cx="127" cy="360" r="4"/>
+    </g>
+  </svg>
+</template>
+
+<!-- ============ PORTE (appuyer pour entrer) ============ -->
+<div id="intro">
+  <p class="hint">Appuyez pour entrer</p>
+  <button class="portal" id="openBtn" aria-label="Appuyez pour entrer">
+    <svg class="rosette r" viewBox="0 0 30 30" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="15" cy="15" r="13"/><circle cx="15" cy="15" r="5"/><path d="M15 2v26M2 15h26M6 6l18 18M24 6L6 24"/></g></svg>
+    <svg class="rosette l" viewBox="0 0 30 30" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="15" cy="15" r="13"/><circle cx="15" cy="15" r="5"/><path d="M15 2v26M2 15h26M6 6l18 18M24 6L6 24"/></g></svg>
+    <span class="ring">
+      <span class="arch">
+        <span class="leaf left"></span>
+        <span class="leaf right"></span>
+      </span>
+    </span>
+  </button>
+  <div class="floor"></div>
+</div>
+
+<div id="sparkles" aria-hidden="true"></div>
+
+<!-- ============ MUSIQUE ============ -->
+<!-- Mettre music.mp3 dans le même dossier -->
+<audio id="music" src="music.mp3" loop preload="auto"></audio>
+<button id="musicBtn" aria-label="Mettre en pause la musique">♪</button>
+
+<!-- ============ INVITATION ============ -->
+<main>
+  <div class="frame">
+
+    <section>
+      <!-- Basmala et prière maintenues en arabe -->
+      <p class="bismillah" aria-label="بسم الله الرحمن الرحيم">﷽</p>
+      <p class="salat">والصلاة والسلام على أشرف المرسلين</p>
+    </section>
+
+    <svg class="ornament" viewBox="0 0 150 20" aria-hidden="true">
+      <path d="M0 10H55M95 10H150" stroke="currentColor" stroke-width="1"/>
+      <path d="M75 2l8 8-8 8-8-8z" fill="none" stroke="currentColor" stroke-width="1"/>
+      <circle cx="75" cy="10" r="2" fill="currentColor"/>
+      <circle cx="60" cy="10" r="1.5" fill="currentColor"/>
+      <circle cx="90" cy="10" r="1.5" fill="currentColor"/>
+    </svg>
+
+    <section>
+      <p class="honor">La famille de</p>
+      <p class="person">M. Ali Sfar</p>
+      <p class="and">et son épouse</p>
+      <p class="person">Mme Sayda Essebsi</p>
+      <p class="invite">a le plaisir de vous inviter à la fête du henné de leur fille</p>
+      <h1 class="bride">Sarah</h1>
+    </section>
+
+    <!-- PHOTO : se cache automatiquement si absente -->
+    <section class="photo" id="photoBox">
+      <div class="inner">
+        <img src="photo.png" alt="Sarah Sfar" onerror="document.getElementById('photoBox').remove()">
+      </div>
+    </section>
+
+    <!-- Les deux événements sont remplis automatiquement depuis EVENTS (dans le script) -->
+    <section id="events"></section>
+
+    <svg class="ornament" viewBox="0 0 150 20" aria-hidden="true">
+      <path d="M0 10H55M95 10H150" stroke="currentColor" stroke-width="1"/>
+      <path d="M75 2l8 8-8 8-8-8z" fill="none" stroke="currentColor" stroke-width="1"/>
+      <circle cx="75" cy="10" r="2" fill="currentColor"/>
+    </svg>
+
+    <section>
+      <p class="closing">Votre présence complètera notre bonheur</p>
+      <p class="sign">La famille Sfar</p>
+    </section>
+
+  </div>
+</main>
+
+<script>
+  /* ============ VOS INFOS (en français) ============ */
+  const EVENTS = [
+    {
+      title:   "Le Hezbe",
+      date:    "2027-03-24T20:00",
+      venue:   "Demeure de la famille Ali Sfar",
+      address: "El Zahra, Mahdia, Tunisie",
+      maps:    "https://www.google.com/maps/place/35.497416,11.039932/data=!4m6!3m5!1s0!7e2!8m2!3d35.4974158!4d11.0399317!18m1!1e1?utm_source=mstt_1&entry=gps&coh=192189&g_ep=CAESBzI2LjQxLjMYACD67A0qxwEsOTQyNjc3MjcsOTQyOTIxOTUsOTQyOTk1MzIsMTAwNzk2NDk4LDEwMDc5Nzc2MSwxMDA3OTY1MzUsOTQyODA1NzYsOTQy07M5NCw5NDIwNzUwNiw5NDIwODUwNiw5NDIxODY1MzUsOTQyMjk4MzksOTQyNzUxNjgsOTQyNzk2MTksMTAwODM1NzEwLDEwMDgyNTAyNSwxMDA4MjAyMzcsMTAwODIyNDk4LDEwMDgyNzk3NSwxMDA4MzgzNTksMTIxODE2NDYxQgJUTg%3D%3D&skid=1b9ec195-ecf2-4c08-82ce-af1783ec151f&g_st=afm"
+    },
+    {
+      title:   "Le Grand Henné",
+      date:    "2027-03-25T20:00",
+      venue:   "Salle Des Fêtes Honeymoon",
+      address: "Rejiche, Mahdia, Tunisie",
+      maps:    "https://www.google.com/maps/place/Salle+Des+F%C3%AAtes+Honeymoon/@35.4807464,11.0502049,17z/data=!3m1!4b1!4m6!3m5!1s0x130221430d35c09f:0xce355525048304d!8m2!3d35.4807421!4d11.0527745!16s%2Fg%2F11c5gdkr7n?entry=ttu&g_ep=EgoyMDI2MTAxMy4wIKXMDSoASAFQAw%3D%3D"
+    }
+  ];
+
+  /* Formatage des dates en français */
+  const DAYS   = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+  const MONTHS = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+
+  const box = document.getElementById("events");
+  EVENTS.forEach((ev, i) => {
+    const d = new Date(ev.date);
+    const el = document.createElement("div");
+    el.className = "event";
+    const add = (tag, cls, text) => { 
+      const n = document.createElement(tag); 
+      n.className = cls; 
+      n.textContent = text; 
+      el.appendChild(n); 
+      return n; 
+    };
+
+    if (i > 0) add("hr", "event-sep", "");
+    if (ev.title) add("h2", "event-title", ev.title);
+
+    const dateFormatted = DAYS[d.getDay()] + " " + d.getDate() + " " + MONTHS[d.getMonth()] + " " + d.getFullYear();
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    const timeFormatted = "À " + hours + "h" + minutes;
+
+    add("p", "event-date", dateFormatted);
+    add("p", "event-time", timeFormatted);
+    add("p", "venue-name", ev.venue);
+    add("p", "venue-addr", ev.address);
+
+    const a = add("a", "btn", "Voir sur la carte");
+    a.target = "_blank"; 
+    a.rel = "noopener";
+    a.href = (ev.maps || "").trim() ||
+      "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(ev.venue + ", " + ev.address);
+    box.appendChild(el);
+  });
+
+  /* Motifs des deux battants */
+  const art = document.getElementById("leafArt");
+  document.querySelectorAll(".leaf").forEach(l => l.appendChild(art.content.cloneNode(true)));
+
+  /* Étincelles dorées */
+  const sparkles = document.getElementById("sparkles");
+  for (let i = 0; i < 22; i++){
+    const p = document.createElement("span");
+    const star = Math.random() < .6;
+    p.className = star ? "spark" : "spark dot";
+    p.style.left = (Math.random()*100) + "%";
+    p.style.top  = (8 + Math.random()*92) + "%";
+    p.style.setProperty("--s", (star ? 12 + Math.random()*12 : 7 + Math.random()*4) + "px");
+    p.style.setProperty("--d", (7 + Math.random()*6) + "s");
+    p.style.setProperty("--t", (2.5 + Math.random()*3) + "s");
+    p.style.setProperty("--x", (Math.random()*30 - 15) + "px");
+    p.style.setProperty("--delay", (-Math.random()*8) + "s");
+    sparkles.appendChild(p);
+  }
+
+  /* Porte + musique */
+  const intro = document.getElementById("intro");
+  const music = document.getElementById("music");
+  const musicBtn = document.getElementById("musicBtn");
+
+  document.getElementById("openBtn").addEventListener("click", () => {
+    intro.classList.add("open");
+    document.body.classList.remove("locked");
+    music.play().then(() => {
+      musicBtn.classList.add("show","playing");
+    }).catch(() => { /* Pas encore de music.mp3 */ });
+  });
+
+  musicBtn.addEventListener("click", () => {
+    if (music.paused){ 
+      music.play(); 
+      musicBtn.classList.add("playing"); 
+      musicBtn.setAttribute("aria-label","Mettre en pause la musique"); 
+    } else { 
+      music.pause(); 
+      musicBtn.classList.remove("playing"); 
+      musicBtn.setAttribute("aria-label","Lancer la musique"); 
+    }
+  });
+</script>
+</body>
+</html>
